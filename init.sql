@@ -3,13 +3,6 @@ CREATE DATABASE weather_db;
 
 USE weather_db;
 
-SET SQL_SAFE_UPDATES  = 0;
-ALTER TABLE cities AUTO_INCREMENT = 1;
-ALTER TABLE weather_data AUTO_INCREMENT = 1;
-ALTER TABLE daily_summary AUTO_INCREMENT = 1;
-DELETE FROM daily_summary;
-DELETE FROM weather_data;
-DELETE FROM cities;
 
 
  CREATE TABLE  IF NOT EXISTS  `cities` (
@@ -19,7 +12,7 @@ DELETE FROM cities;
   `latitude` float NOT NULL,
   `longitude` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
  CREATE TABLE  IF NOT EXISTS `weather_data` (
@@ -34,7 +27,7 @@ DELETE FROM cities;
   PRIMARY KEY (`id`),
   KEY `city_id` (`city_id`),
   CONSTRAINT `weather_data_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
  CREATE TABLE IF NOT EXISTS `daily_summary` (
@@ -47,4 +40,13 @@ DELETE FROM cities;
   PRIMARY KEY (`id`),
   KEY `city_id` (`city_id`),
   CONSTRAINT `daily_summary_ibfk_1` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+SET SQL_SAFE_UPDATES  = 0;
+ALTER TABLE cities AUTO_INCREMENT = 1;
+ALTER TABLE weather_data AUTO_INCREMENT = 1;
+ALTER TABLE daily_summary AUTO_INCREMENT = 1;
+DELETE FROM daily_summary;
+DELETE FROM weather_data;
+DELETE FROM cities;

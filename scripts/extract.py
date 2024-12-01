@@ -1,6 +1,9 @@
 import requests
 
+
 from config import Config
+
+
 
 
 def fetch_weather_data(city_name):

@@ -1,4 +1,10 @@
 
+import sys
+import os
+
+# Adiciona o caminho absoluto da pasta 'scripts' ao PYTHONPATH
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.', 'scripts')))
+
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
@@ -11,7 +17,7 @@ cities = ["São Paulo", "Rio de Janeiro", "Curitiba"]
 
 # Defina o DAG
 with DAG(
-    'weather_etl_dag',
+    dag_id='weather_etl_dag',
     default_args={
         'owner': 'airflow',
         'retries': 1,

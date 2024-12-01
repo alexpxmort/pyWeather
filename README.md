@@ -1,4 +1,3 @@
-### README.md
 
 # Weather ETL API
 
@@ -118,38 +117,38 @@ Gera o resumo diário para todas as cidades.
 
 ---
 
-
 ## Configuração e Execução do Airflow
 
 Para iniciar o Airflow, siga as etapas abaixo:
 
 1. **Inicializar o banco de dados do Airflow**:
-
-   Antes de iniciar os serviços, inicialize o banco de dados do Airflow (caso seja a primeira vez que você está rodando o Airflow):
-
+   Caso seja a primeira vez que você está rodando o Airflow, inicialize o banco de dados do Airflow com o seguinte comando:
    ```bash
    airflow db init
    ```
 
-2. **Iniciar o Webserver do Airflow**:
 
-   Para iniciar o servidor web do Airflow e acessar a interface web, execute:
+#### 1.1. **Configuração do `AIRFLOW_HOME`**
+Se você está usando o Windows com WSL2, defina a variável `AIRFLOW_HOME` para o diretório onde seus DAGs estão armazenados. No seu caso, é:
 
-   ```bash
-   airflow webserver --port 8080
-   ```
+```bash
+export AIRFLOW_HOME=/mnt/c/Users/User/OneDrive/Documentos/ESTUDOS/Python/pyWeather/dags
+```
 
-   O servidor web do Airflow será iniciado e você poderá acessar a interface web na URL `http://localhost:8080`.
-
-3. **Iniciar o Scheduler do Airflow**:
-
+   
+2. **Iniciar o Scheduler do Airflow**:
    O Airflow precisa de um scheduler para monitorar e executar os DAGs. Para iniciar o scheduler, execute:
-
    ```bash
    airflow scheduler
    ```
 
-   O scheduler irá verificar os DAGs configurados e executá-los conforme o cronograma (schedule).
+3. **Iniciar o Webserver do Airflow**:
+   Para iniciar o servidor web do Airflow e acessar a interface web, execute:
+   ```bash
+   airflow webserver --port 8080
+   ```
+   O servidor web do Airflow será iniciado e você poderá acessar a interface web na URL `http://localhost:8080`.
+
 
 ## Cronograma (Schedule)
 
@@ -159,7 +158,7 @@ O pipeline ETL neste projeto é configurado para ser executado a cada 5 minutos,
 schedule_interval='*/5 * * * *',  # Executa a cada 5 minutos
 ```
 
-Se quiser que o pipeline seja executado em outro intervalo, pode alterar a string `schedule_interval` para o valor desejado. Por exemplo:
+Se quiser que o pipeline seja executado em outro intervalo, pode alterar a string `schedule_interval` para o valor desejado. Exemplos:
 
 - `@daily`: Executa uma vez por dia.
 - `0 9 * * *`: Executa diariamente às 9h.
@@ -167,7 +166,7 @@ Se quiser que o pipeline seja executado em outro intervalo, pode alterar a strin
 
 ## Acessando a Interface Web do Airflow
 
-Após iniciar o servidor web com o comando acima, você pode acessar a interface do Airflow no seu navegador em `http://localhost:8080`. O Airflow tem uma interface web bastante amigável onde você pode monitorar, ativar, desativar e visualizar o status de seus DAGs.
+Após iniciar o servidor web com o comando acima, você pode acessar a interface do Airflow no seu navegador em `http://localhost:8080`. O Airflow tem uma interface web amigável onde você pode monitorar, ativar, desativar e visualizar o status de seus DAGs.
 
 ## Configuração do Projeto
 
@@ -180,25 +179,94 @@ Após iniciar o servidor web com o comando acima, você pode acessar a interface
    ```bash
    pip install -r requirements.txt
    ```
+
 2. Execute as migrações do banco:
    ```bash
    flask db upgrade
    ```
+
 3. Inicie o servidor Flask:
    ```bash
    python app.py
    ```
+
 4. Acesse os endpoints em `http://localhost:5000`.
+
+---
+
+## Windows
+
+O Apache Airflow é uma ferramenta poderosa de orquestração de workflows, mas foi projetado principalmente para rodar em ambientes baseados em Unix/Linux. No Windows, há desafios técnicos que podem tornar a instalação e execução mais complicadas. Portanto, o uso do **WSL2 (Windows Subsystem for Linux 2)** é altamente recomendado para facilitar a execução do Airflow.
+
+### Como Configurar o WSL2
+
+Siga os tutoriais abaixo para configurar o WSL2:
+
+- [Como instalar o WSL2 no Windows](https://www.freecodecamp.org/news/how-to-install-wsl2-windows-subsystem-for-linux-2-on-windows-10/)
+- [Instalando o Apache Airflow no Windows com WSL2](https://www.freecodecamp.org/news/install-apache-airflow-on-windows-without-docker/)
+
+### Configuração do WSL2:
+
+1. Instalar o Python 3:
+   ```bash
+   sudo apt update
+   sudo apt install software-properties-common
+   sudo add-apt-repository ppa:deadsnakes/ppa
+   sudo apt update
+   sudo apt install python3.11
+   sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
+   sudo apt install python-is-python3
+   ```
+
+2. Instalar pip:
+   ```bash
+   sudo apt install python3-pip
+   ```
+
+3. Instale as dependências:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Atualize cffi (se necessário):
+   ```bash
+   pip install --upgrade --force-reinstall cffi
+   ```
+
+5. Iniciar o banco de dados do Airflow:
+   ```bash
+   airflow db init
+   ```
+
+
+
+6. Iniciar o scheduler do Airflow:
+   ```bash
+   airflow scheduler
+   ```
+
+7. Iniciar o servidor web do Airflow:
+   ```bash
+   airflow webserver --port 8080
+   ```
+
+8. Criar um novo usuário no Airflow:
+   ```bash
+   airflow users create \
+     --username admin \
+     --firstname Admin \
+     --lastname User \
+     --email admin@example.com \
+     --role Admin \
+     --password adminpassword
+   ```
 
 ---
 
 ## Tecnologias Utilizadas
 
 - **Flask:** Framework para desenvolvimento web.
+- **Pandas:** Processamento de Dados.
+- **Requests:** Consumo de API REST.
 - **SQLAlchemy:** ORM para interação com o banco de dados.
-- **Flask-Migrate:** Gerenciamento de migrações do banco.
-- **MySQL:** Banco de dados relacional para armazenamento dos dados.
-
-## Autor
-
-Projeto desenvolvido para fins educativos.
+- **Flask-Migrate:** Gerenciamento de migra
